@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SSISAndroid</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="login_title">Logic University</string>
+    <string name="preference_file_key">login_preferences</string>
+    <string name="hostname">https://team11ssis.azurewebsites.net/</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_field_required">Field Required</string>
+    <string name="error_invalid_email">Invalid Email</string>
+</resources>
