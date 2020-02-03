@@ -169,7 +169,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         editor.putString("departmentId", response.body().getDepartmentId());
                         editor.putString("role", response.body().getRoleName());
-                        Toast.makeText(LoginActivity.this, response.body().getRoleName(), Toast.LENGTH_SHORT).show();
+                        Log.i("DepartmentId", response.body().getDepartmentId());
+                        Log.i("DepartmentRole", response.body().getRoleName());
                     }
                 }
 

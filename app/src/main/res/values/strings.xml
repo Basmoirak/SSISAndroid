@@ -9,4 +9,7 @@
     <string name="error_incorrect_password">Incorrect Password</string>
     <string name="error_field_required">Field Required</string>
     <string name="error_invalid_email">Invalid Email</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_bar_header">Stationery Shop</string>
 </resources>
