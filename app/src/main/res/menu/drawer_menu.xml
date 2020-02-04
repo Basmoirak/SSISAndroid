@@ -2,17 +2,54 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
+        <!--    Department Head    -->
+        <item
+            android:id="@+id/nav_requisition_approval"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_requisition_approval"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_department_delegation"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_delegation"
+            android:visible="false"/>
+
+        <!--    Department Employee    -->
         <item
             android:id="@+id/nav_requisition"
-            android:icon="@drawable/ic_requisition"
-            android:title="Requisition" />
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_requisition"
+            android:visible="false"/>
         <item
-            android:id="@+id/nav_retrieval"
-            android:icon="@drawable/ic_retrieval"
-            android:title="Retrieval" />
+            android:id="@+id/nav_department_collection"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_department_collection"
+            android:visible="false"/>
+
+        <!--    Store Clerk    -->
         <item
-            android:id="@+id/nav_collection"
-            android:icon="@drawable/ic_collection"
-            android:title="Collection" />
+            android:id="@+id/nav_store_retrieval"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_store_retrieval"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_store_collection"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_store_collection"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_stock_adjustment"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_stock_adjustment"
+            android:visible="false"/>
+
+        <!--   Store Manager/Supervisor     -->
+        <item
+            android:id="@+id/nav_stock_adjustment_approval"
+            android:icon="@drawable/ic_item"
+            android:title="@string/menu_stock_adjustment_approval"
+            android:visible="false"/>
     </group>
 </menu>

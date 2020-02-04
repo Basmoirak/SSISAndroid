@@ -19,6 +19,8 @@ import com.team11.ssisandroid.models.AccessToken;
 import com.team11.ssisandroid.models.UserRole;
 import com.team11.ssisandroid.util.LoginParser;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,10 +28,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
-
-//    Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
-//    Retrofit retrofit = builder.build();
-//    UserClient userClient = retrofit.create(UserClient.class);
 
     //Login Task
     private UserLoginTask mAuthTask = null;
@@ -57,9 +55,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Getting values from button, texts and progress bar
-        loginBtn = (Button) findViewById(R.id.btnLogin);
-        mEmailView = (EditText) findViewById(R.id.etUsername);
-        mPasswordView = (EditText) findViewById(R.id.etPassword);
+        loginBtn = findViewById(R.id.btnLogin);
+        mEmailView = findViewById(R.id.etUsername);
+        mPasswordView = findViewById(R.id.etPassword);
         // End Getting values from button, texts and progress bar
 
         // Setting up the function when button login is clicked
@@ -161,16 +159,43 @@ public class LoginActivity extends AppCompatActivity {
             if (token.containsKey("error"))
                 return false;
 
-            //Store departmentId and user role in shared preferences
-//            Call<UserRole> call = userClient.getUserRole(token.get("accessToken").toString());
+            getUserDetails("Bearer " + token.get("accessToken").toString(), mEmail);
+
+            // Apply Shared Preferences
+            editor.apply();
+
+            Log.i("LOGIN TOKEN", token.toString());
+            return token != null && !token.containsKey("error");
+
+        }
+
+        //Store departmentId and user role in shared preferences
+        private void getUserDetails(String token, String email){
+            Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
+            Retrofit retrofit = builder.build();
+            UserClient userClient = retrofit.create(UserClient.class);
+
+            UserRole userRole = new UserRole(email, null, null);
+            Call<UserRole> call = userClient.getUserRole(token, userRole);
+
+            try {
+                UserRole model = call.execute().body();
+                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).edit();
+                editor.putString("departmentId", model.getDepartmentId());
+                editor.putString("role", model.getRoleName());
+                editor.apply();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 //            call.enqueue(new Callback<UserRole>() {
 //                @Override
 //                public void onResponse(Call<UserRole> call, Response<UserRole> response) {
 //                    if (response.isSuccessful()) {
+//                        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).edit();
 //                        editor.putString("departmentId", response.body().getDepartmentId());
 //                        editor.putString("role", response.body().getRoleName());
-//                        Log.i("DepartmentId", response.body().getDepartmentId());
-//                        Log.i("DepartmentRole", response.body().getRoleName());
+//                        editor.apply();
 //                    }
 //                }
 //
@@ -179,13 +204,6 @@ public class LoginActivity extends AppCompatActivity {
 //                    Toast.makeText(LoginActivity.this, "Issue with retrieving role", Toast.LENGTH_SHORT).show();
 //                }
 //            });
-
-            // Apply Shared Preferences
-            editor.apply();
-
-            Log.i("LOGIN TOKEN", token.toString());
-            return token != null && !token.containsKey("error");
-
         }
 
             @Override

@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -28,22 +29,24 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
-    Retrofit retrofit = builder.build();
-    UserClient userClient = retrofit.create(UserClient.class);
     SharedPreferences pref;
     private DrawerLayout drawer;
+    NavigationView navigationView;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        role = pref.getString("role", null);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -51,12 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Get User Department Id and Department Role, and store in shared preferences
-        getUserDetails();
-
-        pref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        String role = pref.getString("role", null);
-        Log.i("role", role + "");
     }
 
     @Override
@@ -68,6 +65,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        if(role.contains("StoreClerk")){
+            navigationView.getMenu().findItem(R.id.nav_store_retrieval).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_store_collection).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_stock_adjustment).setVisible(true);
+        }
+
+        else if (role.contains("StoreSupervisor") || role.contains("StoreManager")){
+            navigationView.getMenu().findItem(R.id.nav_stock_adjustment_approval).setVisible(true);
+        }
+
+        else if(role.contains("DepartmentHead")){
+            Log.i("True", "TRUE");
+            navigationView.getMenu().findItem(R.id.nav_requisition_approval).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_department_delegation).setVisible(true);
+        }
+
+        else if(role.contains("Employee")){
+            navigationView.getMenu().findItem(R.id.nav_requisition).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_department_collection).setVisible(true);
+        }
+
+        return true;
+    }
+
     //Based on item selected in menu, go to new fragment/page
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -76,42 +100,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new RequisitionFragment()).commit();
                 break;
-            case R.id.nav_retrieval:
+            case R.id.nav_store_retrieval:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new RetrievalFragment()).commit();
                 break;
-            case R.id.nav_collection:
+            case R.id.nav_store_collection:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new CollectionFragment()).commit();
                 break;
         }
 
         return true;
-    }
-
-
-    private void getUserDetails(){
-        //Store departmentId and user role in shared preferences
-        pref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-        String token = "Bearer " + pref.getString("accessToken", null);
-        Call<UserRole> call = userClient.getUserRole(token);
-        Log.i("XSADIISA", token);
-        call.enqueue(new Callback<UserRole>() {
-            @Override
-            public void onResponse(Call<UserRole> call, Response<UserRole> response) {
-                if (response.isSuccessful()) {
-                    SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).edit();
-                    editor.putString("departmentId", response.body().getDepartmentId());
-                    editor.putString("role", response.body().getRoleName());
-                    Log.i("DepartmentId", response.body().getDepartmentId());
-                    Log.i("DepartmentRole", response.body().getRoleName());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserRole> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Issue with retrieving role", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

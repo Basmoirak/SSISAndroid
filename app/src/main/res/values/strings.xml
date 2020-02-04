@@ -19,4 +19,14 @@
 
     //Shared Preferences
     <string name="preference_file_key">login_preferences</string>
+
+    //Menu Items
+    <string name="menu_requisition_approval">Requisition Approval</string>
+    <string name="menu_delegation">Delegation</string>
+    <string name="menu_requisition">Requisition</string>
+    <string name="menu_department_collection">Collection</string>
+    <string name="menu_store_retrieval">Retrieval</string>
+    <string name="menu_store_collection">Collection</string>
+    <string name="menu_stock_adjustment">Stock Adjustment</string>
+    <string name="menu_stock_adjustment_approval">Stock Adjustment Approval</string>
 </resources>

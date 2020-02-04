@@ -1,9 +1,16 @@
 package com.team11.ssisandroid.models;
 
+
 public class UserRole {
     private String email;
     private String roleName;
     private String departmentId;
+
+    public UserRole(String email, String roleName, String departmentId) {
+        this.email = email;
+        this.roleName = roleName;
+        this.departmentId = departmentId;
+    }
 
     public String getEmail() {
         return email;
