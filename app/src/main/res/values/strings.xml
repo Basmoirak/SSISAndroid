@@ -1,15 +1,22 @@
 <resources>
+    //Host name url
+    <string name="hostname">https://team11ssis.azurewebsites.net/</string>
+
+    //Login
     <string name="app_name">SSISAndroid</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="btn_login">Login</string>
     <string name="login_title">Logic University</string>
-    <string name="preference_file_key">login_preferences</string>
-    <string name="hostname">https://team11ssis.azurewebsites.net/</string>
     <string name="error_incorrect_password">Incorrect Password</string>
     <string name="error_field_required">Field Required</string>
     <string name="error_invalid_email">Invalid Email</string>
+
+    //Navigation
+    <string name="nav_bar_header">Stationery Shop</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_bar_header">Stationery Shop</string>
+
+    //Shared Preferences
+    <string name="preference_file_key">login_preferences</string>
 </resources>

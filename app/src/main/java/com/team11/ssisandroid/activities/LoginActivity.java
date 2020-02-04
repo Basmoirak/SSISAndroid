@@ -27,9 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
-    Retrofit retrofit = builder.build();
-    UserClient userClient = retrofit.create(UserClient.class);
+//    Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
+//    Retrofit retrofit = builder.build();
+//    UserClient userClient = retrofit.create(UserClient.class);
 
     //Login Task
     private UserLoginTask mAuthTask = null;
@@ -162,23 +162,23 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
 
             //Store departmentId and user role in shared preferences
-            Call<UserRole> call = userClient.getUserRole(token.get("accessToken").toString());
-            call.enqueue(new Callback<UserRole>() {
-                @Override
-                public void onResponse(Call<UserRole> call, Response<UserRole> response) {
-                    if (response.isSuccessful()) {
-                        editor.putString("departmentId", response.body().getDepartmentId());
-                        editor.putString("role", response.body().getRoleName());
-                        Log.i("DepartmentId", response.body().getDepartmentId());
-                        Log.i("DepartmentRole", response.body().getRoleName());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<UserRole> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Issue with retrieving role", Toast.LENGTH_SHORT).show();
-                }
-            });
+//            Call<UserRole> call = userClient.getUserRole(token.get("accessToken").toString());
+//            call.enqueue(new Callback<UserRole>() {
+//                @Override
+//                public void onResponse(Call<UserRole> call, Response<UserRole> response) {
+//                    if (response.isSuccessful()) {
+//                        editor.putString("departmentId", response.body().getDepartmentId());
+//                        editor.putString("role", response.body().getRoleName());
+//                        Log.i("DepartmentId", response.body().getDepartmentId());
+//                        Log.i("DepartmentRole", response.body().getRoleName());
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<UserRole> call, Throwable t) {
+//                    Toast.makeText(LoginActivity.this, "Issue with retrieving role", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
             // Apply Shared Preferences
             editor.apply();

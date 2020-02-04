@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+        android:id="@+id/nav_store_retrieval"
+        android:icon="@drawable/ic_retrieval"
+        android:title="Retrieval" />
+        <item
+            android:id="@+id/nav_store_collection"
+            android:icon="@drawable/ic_collection"
+            android:title="Collection" />
+        <item
+            android:id="@+id/nav_stock_adjustment"
+            android:icon="@drawable/ic_requisition"
+            android:title="Stock Adjustment" />
+    </group>
+</menu>
