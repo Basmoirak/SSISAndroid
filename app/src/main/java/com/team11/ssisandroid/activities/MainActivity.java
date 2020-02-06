@@ -20,7 +20,10 @@ import com.team11.ssisandroid.fragments.CollectionFragment;
 import com.team11.ssisandroid.fragments.RequisitionFragment;
 import com.team11.ssisandroid.fragments.RetrievalFragment;
 import com.team11.ssisandroid.interfaces.UserClient;
+import com.team11.ssisandroid.models.Requisition;
 import com.team11.ssisandroid.models.UserRole;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,8 +32,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    SharedPreferences pref;
     private DrawerLayout drawer;
+    SharedPreferences pref;
     NavigationView navigationView;
     String role;
 
@@ -79,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if(role.contains("DepartmentHead")){
-            Log.i("True", "TRUE");
             navigationView.getMenu().findItem(R.id.nav_requisition_approval).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_department_delegation).setVisible(true);
         }
@@ -112,4 +114,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+
 }
