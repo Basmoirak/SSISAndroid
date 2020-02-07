@@ -1,7 +1,5 @@
 package com.team11.ssisandroid.models;
 
-import java.util.ArrayList;
-
 public class Requisition {
     private String requisitionId;
     private String remarks;

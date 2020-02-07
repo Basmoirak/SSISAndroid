@@ -22,17 +22,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/requisitionViewTitle"
+                    android:id="@+id/requisitionDetailDescription"
                     android:textSize="18sp"
                     android:textColor="#1A1A1A"
-                    android:text="Requisition ID: "
+                    android:text="Description: "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:text="Remarks: "
-                    android:id="@+id/requisitionViewRemarks"
-                    android:layout_below="@id/requisitionViewTitle"
+                    android:text="Item Code: "
+                    android:id="@+id/requisitionDetailItemCode"
+                    android:layout_below="@id/requisitionDetailDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="Quantity: "
+                    android:id="@+id/requisitionDetailQuantity"
+                    android:layout_below="@id/requisitionDetailItemCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
