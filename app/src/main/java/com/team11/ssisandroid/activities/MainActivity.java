@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new RetrievalFragment()).commit();
                 break;
-            case R.id.nav_store_collection:
+            case R.id.nav_department_collection:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new CollectionFragment()).commit();
                 break;

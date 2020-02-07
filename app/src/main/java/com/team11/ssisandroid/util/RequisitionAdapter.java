@@ -72,7 +72,6 @@ public class RequisitionAdapter extends RecyclerView.Adapter<RequisitionAdapter.
         }
     }
 
-
     // Inner class to hold reference to each item of Recycler View
     public class RequisitionViewHolder extends RecyclerView.ViewHolder{
         private LinearLayout requisition_item;
