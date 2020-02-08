@@ -19,6 +19,7 @@ import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.fragments.CollectionFragment;
 import com.team11.ssisandroid.fragments.RequisitionFragment;
 import com.team11.ssisandroid.fragments.RetrievalFragment;
+import com.team11.ssisandroid.fragments.StoreCollectionFragment;
 import com.team11.ssisandroid.interfaces.UserClient;
 import com.team11.ssisandroid.models.Requisition;
 import com.team11.ssisandroid.models.UserRole;
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new CollectionFragment()).commit();
                 break;
+            case R.id.nav_store_collection:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new StoreCollectionFragment()).commit();
         }
 
         return true;

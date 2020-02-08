@@ -77,7 +77,20 @@ public class CollectionFragment extends Fragment {
         SharedPreferences userDetails = this.getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String token = userDetails.getString("token", null);
         String email = userDetails.getString("email", null);
-        String departmentId = userDetails.getString("departmentId", null);
+        String role = userDetails.getString("role", null);
+        String departmentId = null;
+
+        //If is Employee, take the current User's departmentId
+        if(role.contains("Employee")){
+            departmentId = userDetails.getString("departmentId", null);
+
+        //If is Store Clerk, take the departmentId provided from StoreCollection fragment
+        } else if(role.contains("StoreClerk")) {
+            Bundle bundle = this.getArguments();
+            if(bundle != null){
+                departmentId = bundle.getString("departmentId");
+            }
+        }
 
         // Set up user role
         UserRole userRole = new UserRole(email, null, departmentId);
