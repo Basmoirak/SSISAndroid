@@ -49,7 +49,6 @@ public class CollectionFragment extends Fragment {
         token = userDetails.getString("token", null);
         email = userDetails.getString("email", null);
         role = userDetails.getString("role", null);
-//        departmentId = userDetails.getString("departmentId", null);
 
         getCollection(new CollectionLoadedListener() {
             @Override

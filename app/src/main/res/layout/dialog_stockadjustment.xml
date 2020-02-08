@@ -42,7 +42,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:hint="Movement"
-            android:inputType="number"
+            android:inputType="number|numberSigned"
             android:background="@android:color/white"/>
 
         <Button
