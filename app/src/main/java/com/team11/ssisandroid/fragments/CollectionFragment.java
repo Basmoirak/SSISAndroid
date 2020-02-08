@@ -34,6 +34,7 @@ public class CollectionFragment extends Fragment {
     private String token;
     private String email;
     private String role;
+    private String departmentId;
 
     public interface CollectionLoadedListener {
         void onDataLoaded(Collection collection);
@@ -50,12 +51,13 @@ public class CollectionFragment extends Fragment {
         token = userDetails.getString("token", null);
         email = userDetails.getString("email", null);
         role = userDetails.getString("role", null);
+//        departmentId = userDetails.getString("departmentId", null);
 
         getCollection(new CollectionLoadedListener() {
             @Override
             public void onDataLoaded(Collection collection) {
                 // 1. Create adapter after response from server
-                CollectionAdapter mAdapter = new CollectionAdapter(getContext(), collection, role);
+                CollectionAdapter mAdapter = new CollectionAdapter(getContext(), collection, role, departmentId, token);
 
                 // 2. Set adapter
                 recyclerView.setAdapter(mAdapter);
@@ -84,7 +86,7 @@ public class CollectionFragment extends Fragment {
 
         // Retrieve authentication token, email and departmentId from shared preferences
         SharedPreferences userDetails = this.getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String departmentId = null;
+        departmentId = null;
 
         //If is Employee, take the current User's departmentId
         if(role.contains("Employee")){

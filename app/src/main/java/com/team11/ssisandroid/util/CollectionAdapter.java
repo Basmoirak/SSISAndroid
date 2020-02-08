@@ -14,7 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.fragments.CollectionFragment;
+import com.team11.ssisandroid.interfaces.CollectionApi;
 import com.team11.ssisandroid.models.Collection;
+import com.team11.ssisandroid.models.UserRole;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
@@ -22,13 +31,17 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_BUTTON = 2;
 
     private String role;
+    private String token;
+    private String departmentId;
     private Context mContext;
     private Collection collection;
 
-    public CollectionAdapter(Context mContext, Collection collection, String role) {
+    public CollectionAdapter(Context mContext, Collection collection, String role, String departmentId, String token) {
         this.mContext = mContext;
         this.collection = collection;
         this.role = role;
+        this.departmentId = departmentId;
+        this.token = token;
     }
 
     // Create new view
@@ -110,10 +123,18 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(collection.getItemDisbursements().length < 1){
                         Toast.makeText(view.getContext(), "You have no collections to confirm", Toast.LENGTH_SHORT).show();
                     } else {
-                        //Create fragment that you want to go to
+                        // Send api call to server to update database
+                        confirmCollection(new ConfirmCollectionListener() {
+                            @Override
+                            public void onResponse() {
+
+                            }
+                        });
+
+                        // Create fragment that you want to go to
                         CollectionFragment collectionFragment = new CollectionFragment();
 
-                        //Go to new fragment on button click
+                        // Go to new fragment on button click
                         AppCompatActivity activity  =(AppCompatActivity) view.getContext();
                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, collectionFragment).addToBackStack(null).commit();
                     }
@@ -150,18 +171,22 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // getItemCount increase the position depending on role.
     @Override
     public int getItemCount() {
-
-        // If role contains StoreClerk, should show Header + Items
-        if(role.contains("StoreClerk")){
-            if (collection.getItemDisbursements().length > 0)
-                return collection.getItemDisbursements().length + 1;
-        }
-        // If role contains Employee, should show Header + Items + Approval button
-        else if(role.contains("Employee")){
-            if(collection.getItemDisbursements().length > 0)
-                return collection.getItemDisbursements().length + 2;
+        if(collection.getItemDisbursements() != null){
+            // If role contains StoreClerk, should show Header + Items
+            if(role.contains("StoreClerk")){
+                if (collection.getItemDisbursements().length > 0)
+                    return collection.getItemDisbursements().length + 1;
+            }
+            // If role contains Employee, should show Header + Items + Approval button
+            else if(role.contains("Employee")){
+                if(collection.getItemDisbursements().length > 0)
+                    return collection.getItemDisbursements().length + 2;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            // Return Header
+            return 1;
         }
 
         return 0;
@@ -204,5 +229,34 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewItemCode = itemView.findViewById(R.id.collectionItemCode);
             mTextViewQuantity = itemView.findViewById(R.id.collectionQuantity);
         }
+    }
+
+    public interface ConfirmCollectionListener {
+        void onResponse();
+    }
+
+    private void confirmCollection(final ConfirmCollectionListener listener){
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+
+        // Set up UserRole
+        UserRole userRole = new UserRole(null, null, departmentId);
+        Call<ResponseBody> call = collectionApi.confirmDepartmentCollection(token, userRole);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    listener.onResponse();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
 }
