@@ -32,6 +32,9 @@ public class RequisitionDetailsFragment extends Fragment {
     private RecyclerView recyclerView;
     private RequisitionDetail[] requisitionDetailsArr;
     String requisitionId;
+    String token;
+    String role;
+    String departmentId;
 
     public interface RequisitionDetailsLoadListener {
         void onDataLoaded(RequisitionDetail[] requisitionDetails);
@@ -45,6 +48,11 @@ public class RequisitionDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences userDetails = this.getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        token = userDetails.getString("token", null);
+        role = userDetails.getString("role", null);
+        departmentId = userDetails.getString("departmentId", null);
+
         getRequisitionDetailsList(new RequisitionDetailsLoadListener() {
             @Override
             public void onDataLoaded(RequisitionDetail[] requisitionDetails) {
@@ -56,7 +64,7 @@ public class RequisitionDetailsFragment extends Fragment {
                 }
 
                 // 1. Create adapter after response from server
-                RequisitionDetailsAdapter mAdapter = new RequisitionDetailsAdapter(getContext(), requisitionDetailsArr);
+                RequisitionDetailsAdapter mAdapter = new RequisitionDetailsAdapter(getContext(), requisitionDetailsArr, role, requisitionId, departmentId, token);
 
                 // 2. Set adapter
                 recyclerView.setAdapter(mAdapter);
@@ -92,7 +100,7 @@ public class RequisitionDetailsFragment extends Fragment {
         }
 
         //Set up Requisition class
-        Requisition requisition = new Requisition(requisitionId, null, null, null);
+        Requisition requisition = new Requisition(requisitionId, departmentId, null, null, null);
         Call<RequisitionDetail[]> call = requisitionApi.getRequisitionDetails(token, requisition);
 
         call.enqueue(new Callback<RequisitionDetail[]>() {
@@ -100,9 +108,6 @@ public class RequisitionDetailsFragment extends Fragment {
             public void onResponse(Call<RequisitionDetail[]> call, Response<RequisitionDetail[]> response) {
                 if(response.isSuccessful()){
                     RequisitionDetail[] list = response.body();
-                    for (RequisitionDetail req: list) {
-                        Log.i("ItemCode", req.getItemCode());
-                    }
                     listener.onDataLoaded(list);
                 }
             }

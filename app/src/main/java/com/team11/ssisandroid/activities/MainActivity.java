@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if(role.contains("DepartmentHead")){
-            navigationView.getMenu().findItem(R.id.nav_requisition_approval).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_requisition).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_department_delegation).setVisible(true);
         }
 
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_store_collection:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new StoreCollectionFragment()).commit();
+                break;
         }
 
         return true;

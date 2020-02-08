@@ -49,30 +49,18 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        //If store clerk, we will only inflate layout with items and header
-        if(role.contains("StoreClerk")) {
-            if (viewType == TYPE_ITEM) {
-                // Here Inflating your recyclerview item layout
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_fragment, parent, false);
-                return new CollectionViewHolder(itemView);
-            } else if (viewType == TYPE_HEADER) {
-                // Here Inflating your header view
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_header_fragment, parent, false);
-                return new CollectionHeaderViewHolder(itemView);
-            }
+        if (viewType == TYPE_ITEM) {
+            // Here Inflating your recyclerview item layout
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_fragment, parent, false);
+            return new CollectionViewHolder(itemView);
+        } else if (viewType == TYPE_HEADER) {
+            // Here Inflating your header view
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_header_fragment, parent, false);
+            return new CollectionHeaderViewHolder(itemView);
         }
 
-        //If Employee, we will inflate layout with items, header and confirmation button
-        if(role.contains("Employee")) {
-            if (viewType == TYPE_ITEM) {
-                // Here Inflating your recyclerview item layout
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_fragment, parent, false);
-                return new CollectionViewHolder(itemView);
-            } else if (viewType == TYPE_HEADER) {
-                // Here Inflating your header view
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_header_fragment, parent, false);
-                return new CollectionHeaderViewHolder(itemView);
-            } else if(viewType == TYPE_BUTTON){
+        if(role.contains("Employee")){
+            if(viewType == TYPE_BUTTON){
                 //Here Inflating your button view
                 View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_button_fragment, parent, false);
                 return new CollectionButtonViewHolder(itemView);
@@ -127,16 +115,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         confirmCollection(new ConfirmCollectionListener() {
                             @Override
                             public void onResponse() {
+                                Toast.makeText(mContext, "Collections confirmed", Toast.LENGTH_SHORT).show();
+                                // Create fragment that you want to go to
+                                CollectionFragment collectionFragment = new CollectionFragment();
 
+                                // Go to new fragment on button click
+                                AppCompatActivity activity  =(AppCompatActivity) mContext;
+                                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, collectionFragment).addToBackStack(null).commit();
                             }
                         });
-
-                        // Create fragment that you want to go to
-                        CollectionFragment collectionFragment = new CollectionFragment();
-
-                        // Go to new fragment on button click
-                        AppCompatActivity activity  =(AppCompatActivity) view.getContext();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, collectionFragment).addToBackStack(null).commit();
                     }
                 }
             });
