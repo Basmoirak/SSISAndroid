@@ -52,4 +52,12 @@
             android:title="@string/menu_stock_adjustment_approval"
             android:visible="false"/>
     </group>
+
+    <item android:title="@string/user_action">
+        <menu>
+            <item android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_item"
+                android:title="@string/logout"/>
+        </menu>
+    </item>
 </menu>

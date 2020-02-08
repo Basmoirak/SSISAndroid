@@ -3,7 +3,7 @@
     <string name="hostname">https://team11ssis.azurewebsites.net/</string>
 
     //Login
-    <string name="app_name">SSISAndroid</string>
+    <string name="app_name">Stationery Shop</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="btn_login">Login</string>
@@ -29,4 +29,6 @@
     <string name="menu_store_collection">Collection</string>
     <string name="menu_stock_adjustment">Stock Adjustment</string>
     <string name="menu_stock_adjustment_approval">Stock Adjustment Approval</string>
+    <string name="logout">Logout</string>
+    <string name="user_action">User Actions</string>
 </resources>

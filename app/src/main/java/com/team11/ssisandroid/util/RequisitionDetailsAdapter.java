@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team11.ssisandroid.R;
-import com.team11.ssisandroid.fragments.CollectionFragment;
-import com.team11.ssisandroid.fragments.RequisitionDetailsFragment;
 import com.team11.ssisandroid.fragments.RequisitionFragment;
 import com.team11.ssisandroid.interfaces.RequisitionApi;
 import com.team11.ssisandroid.models.Requisition;

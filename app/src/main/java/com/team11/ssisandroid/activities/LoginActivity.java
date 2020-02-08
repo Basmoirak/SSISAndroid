@@ -42,17 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // If token has not yet expired, continue to main screen
-        long currentTime = System.currentTimeMillis();
-        long loginTime = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getLong("loginTime", 0);
-        int expiresIn = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getInt("expiresIn", 0);
-        String accessToken = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getString("accessToken", "");
-
-        if (!accessToken.equals("") && currentTime <= loginTime + expiresIn * 1000) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+//        // If token has not yet expired, continue to main screen
+//        long currentTime = System.currentTimeMillis();
+//        long loginTime = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getLong("loginTime", 0);
+//        int expiresIn = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getInt("expiresIn", 0);
+//        String accessToken = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).getString("accessToken", "");
+//
+//        if (!accessToken.equals("") && currentTime <= loginTime + expiresIn * 1000) {
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+//        }
 
         // Getting values from button, texts and progress bar
         loginBtn = findViewById(R.id.btnLogin);
@@ -188,22 +188,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            call.enqueue(new Callback<UserRole>() {
-//                @Override
-//                public void onResponse(Call<UserRole> call, Response<UserRole> response) {
-//                    if (response.isSuccessful()) {
-//                        SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE).edit();
-//                        editor.putString("departmentId", response.body().getDepartmentId());
-//                        editor.putString("role", response.body().getRoleName());
-//                        editor.apply();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<UserRole> call, Throwable t) {
-//                    Toast.makeText(LoginActivity.this, "Issue with retrieving role", Toast.LENGTH_SHORT).show();
-//                }
-//            });
         }
 
             @Override

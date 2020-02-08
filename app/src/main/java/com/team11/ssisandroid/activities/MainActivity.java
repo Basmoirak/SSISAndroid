@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
+            case R.id.nav_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_requisition:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new RequisitionFragment()).commit();
