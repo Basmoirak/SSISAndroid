@@ -44,10 +44,10 @@ public class RequisitionAdapter extends RecyclerView.Adapter<RequisitionAdapter.
                 Bundle bundle = new Bundle();
                 bundle.putString("requisitionId", mRequisitionArr[viewHolder.getAdapterPosition()].getRequisitionId());
                 requisitionDetailsFragment.setArguments(bundle);
-
                 //Go to new fragment on button click
                 AppCompatActivity activity  =(AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, requisitionDetailsFragment).addToBackStack(null).commit();
+
             }
         });
 
