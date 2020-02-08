@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.fragments.CollectionFragment;
 import com.team11.ssisandroid.interfaces.CollectionApi;
-import com.team11.ssisandroid.models.Collection;
+import com.team11.ssisandroid.models.DepartmentCollection;
 import com.team11.ssisandroid.models.UserRole;
 
 import okhttp3.ResponseBody;
@@ -34,11 +34,11 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private String token;
     private String departmentId;
     private Context mContext;
-    private Collection collection;
+    private DepartmentCollection departmentCollection;
 
-    public CollectionAdapter(Context mContext, Collection collection, String role, String departmentId, String token) {
+    public CollectionAdapter(Context mContext, DepartmentCollection departmentCollection, String role, String departmentId, String token) {
         this.mContext = mContext;
-        this.collection = collection;
+        this.departmentCollection = departmentCollection;
         this.role = role;
         this.departmentId = departmentId;
         this.token = token;
@@ -77,8 +77,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             CollectionHeaderViewHolder headerViewHolder = (CollectionHeaderViewHolder) holder;
 
             // You have to set your header items values with the help of model class and you can modify as per your needs
-            headerViewHolder.mTextViewCollectionPoint.setText(collection.getCollectionPoint());
-            headerViewHolder.mTextViewDepartmentName.setText(collection.getDepartmentName());
+            headerViewHolder.mTextViewCollectionPoint.setText(departmentCollection.getCollectionPoint());
+            headerViewHolder.mTextViewDepartmentName.setText(departmentCollection.getDepartmentName());
 
         }
         else if (holder instanceof CollectionViewHolder){
@@ -88,15 +88,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // You have to set your listview items values with the help of model class and you can modify as per your needs
 
             if(role.contains("StoreClerk")){
-                itemViewHolder.mTextViewDescription.setText(collection.getItemDisbursements()[position - 1].getItemDescription());
-                itemViewHolder.mTextViewItemCode.setText(collection.getItemDisbursements()[position - 1].getItemCode());
-                itemViewHolder.mTextViewQuantity.setText("Quantity: " + collection.getItemDisbursements()[position - 1].getAvailableQuantity());
+                itemViewHolder.mTextViewDescription.setText(departmentCollection.getItemDisbursements()[position - 1].getItemDescription());
+                itemViewHolder.mTextViewItemCode.setText(departmentCollection.getItemDisbursements()[position - 1].getItemCode());
+                itemViewHolder.mTextViewQuantity.setText("Quantity: " + departmentCollection.getItemDisbursements()[position - 1].getAvailableQuantity());
             }
             else if(role.contains("Employee")){
-                if(position != collection.getItemDisbursements().length + 1){
-                    itemViewHolder.mTextViewDescription.setText(collection.getItemDisbursements()[position - 1].getItemDescription());
-                    itemViewHolder.mTextViewItemCode.setText(collection.getItemDisbursements()[position - 1].getItemCode());
-                    itemViewHolder.mTextViewQuantity.setText("Quantity: " + collection.getItemDisbursements()[position - 1].getAvailableQuantity());
+                if(position != departmentCollection.getItemDisbursements().length + 1){
+                    itemViewHolder.mTextViewDescription.setText(departmentCollection.getItemDisbursements()[position - 1].getItemDescription());
+                    itemViewHolder.mTextViewItemCode.setText(departmentCollection.getItemDisbursements()[position - 1].getItemCode());
+                    itemViewHolder.mTextViewQuantity.setText("Quantity: " + departmentCollection.getItemDisbursements()[position - 1].getAvailableQuantity());
                 }
             }
         }
@@ -108,7 +108,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View view) {
 
-                    if(collection.getItemDisbursements().length < 1){
+                    if(departmentCollection.getItemDisbursements().length < 1){
                         Toast.makeText(view.getContext(), "You have no collections to confirm", Toast.LENGTH_SHORT).show();
                     } else {
                         // Send api call to server to update database
@@ -137,7 +137,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if(role.contains("Employee")){
             if(position == 0){
                 return TYPE_HEADER;
-            } else if(position == collection.getItemDisbursements().length + 1){
+            } else if(position == departmentCollection.getItemDisbursements().length + 1){
                 return TYPE_BUTTON;
             } else {
                 return TYPE_ITEM;
@@ -158,16 +158,16 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // getItemCount increase the position depending on role.
     @Override
     public int getItemCount() {
-        if(collection.getItemDisbursements() != null){
+        if(departmentCollection.getItemDisbursements() != null){
             // If role contains StoreClerk, should show Header + Items
             if(role.contains("StoreClerk")){
-                if (collection.getItemDisbursements().length > 0)
-                    return collection.getItemDisbursements().length + 1;
+                if (departmentCollection.getItemDisbursements().length > 0)
+                    return departmentCollection.getItemDisbursements().length + 1;
             }
             // If role contains Employee, should show Header + Items + Approval button
             else if(role.contains("Employee")){
-                if(collection.getItemDisbursements().length > 0)
-                    return collection.getItemDisbursements().length + 2;
+                if(departmentCollection.getItemDisbursements().length > 0)
+                    return departmentCollection.getItemDisbursements().length + 2;
             } else {
                 return 0;
             }

@@ -1,12 +1,12 @@
 package com.team11.ssisandroid.models;
 
-public class Collection {
+public class DepartmentCollection {
     private String departmentId;
     private String departmentName;
     private String collectionPoint;
     private CollectionDetails[] itemDisbursements;
 
-    public Collection(String departmentId, String departmentName, String collectionPoint, CollectionDetails[] itemDisbursements) {
+    public DepartmentCollection(String departmentId, String departmentName, String collectionPoint, CollectionDetails[] itemDisbursements) {
         this.departmentId = departmentId;
         this.departmentName = departmentName;
         this.collectionPoint = collectionPoint;

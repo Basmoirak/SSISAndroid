@@ -15,11 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.interfaces.CollectionApi;
-import com.team11.ssisandroid.models.Collection;
-import com.team11.ssisandroid.models.Requisition;
+import com.team11.ssisandroid.models.DepartmentCollection;
 import com.team11.ssisandroid.models.UserRole;
 import com.team11.ssisandroid.util.CollectionAdapter;
-import com.team11.ssisandroid.util.RequisitionAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +35,7 @@ public class CollectionFragment extends Fragment {
     private String departmentId;
 
     public interface CollectionLoadedListener {
-        void onDataLoaded(Collection collection);
+        void onDataLoaded(DepartmentCollection departmentCollection);
     }
 
     public CollectionFragment(){}
@@ -55,9 +53,9 @@ public class CollectionFragment extends Fragment {
 
         getCollection(new CollectionLoadedListener() {
             @Override
-            public void onDataLoaded(Collection collection) {
+            public void onDataLoaded(DepartmentCollection departmentCollection) {
                 // 1. Create adapter after response from server
-                CollectionAdapter mAdapter = new CollectionAdapter(getContext(), collection, role, departmentId, token);
+                CollectionAdapter mAdapter = new CollectionAdapter(getContext(), departmentCollection, role, departmentId, token);
 
                 // 2. Set adapter
                 recyclerView.setAdapter(mAdapter);
@@ -102,19 +100,19 @@ public class CollectionFragment extends Fragment {
 
         // Set up user role
         UserRole userRole = new UserRole(email, null, departmentId);
-        Call<Collection> call = collectionApi.getDepartmentCollection(token, userRole);
+        Call<DepartmentCollection> call = collectionApi.getDepartmentCollection(token, userRole);
 
-        call.enqueue(new Callback<Collection>() {
+        call.enqueue(new Callback<DepartmentCollection>() {
             @Override
-            public void onResponse(Call<Collection> call, Response<Collection> response) {
+            public void onResponse(Call<DepartmentCollection> call, Response<DepartmentCollection> response) {
                 if(response.isSuccessful()){
-                    Collection mCollection = response.body();
-                    listener.onDataLoaded(mCollection);
+                    DepartmentCollection mDepartmentCollection = response.body();
+                    listener.onDataLoaded(mDepartmentCollection);
                 }
             }
 
             @Override
-            public void onFailure(Call<Collection> call, Throwable t) {
+            public void onFailure(Call<DepartmentCollection> call, Throwable t) {
 
             }
         });

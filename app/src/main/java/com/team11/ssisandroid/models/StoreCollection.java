@@ -1,17 +1,17 @@
 package com.team11.ssisandroid.models;
 
 public class StoreCollection {
-    private Collection[] groupedDepartmentCollections;
+    private DepartmentCollection[] groupedDepartmentCollections;
 
-    public StoreCollection(Collection[] groupedDepartmentCollections) {
+    public StoreCollection(DepartmentCollection[] groupedDepartmentCollections) {
         this.groupedDepartmentCollections = groupedDepartmentCollections;
     }
 
-    public Collection[] getGroupedDepartmentCollections() {
+    public DepartmentCollection[] getGroupedDepartmentCollections() {
         return groupedDepartmentCollections;
     }
 
-    public void setGroupedDepartmentCollections(Collection[] groupedDepartmentCollections) {
+    public void setGroupedDepartmentCollections(DepartmentCollection[] groupedDepartmentCollections) {
         this.groupedDepartmentCollections = groupedDepartmentCollections;
     }
 }
