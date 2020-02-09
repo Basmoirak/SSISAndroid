@@ -1,26 +1,26 @@
 package com.team11.ssisandroid.models;
 
 public class Retrieval {
-    private String itemId;
+    private String itemID;
     private String itemCode;
     private String itemDescription;
     private Integer requestedQuantity;
     private Integer availableQuantity;
 
-    public Retrieval(String itemId, String itemCode, String itemDescription, Integer requestedQuantity, Integer availableQuantity) {
-        this.itemId = itemId;
+    public Retrieval(String itemID, String itemCode, String itemDescription, Integer requestedQuantity, Integer availableQuantity) {
+        this.itemID = itemID;
         this.itemCode = itemCode;
         this.itemDescription = itemDescription;
         this.requestedQuantity = requestedQuantity;
         this.availableQuantity = availableQuantity;
     }
 
-    public String getItemId() {
-        return itemId;
+    public String getItemID() {
+        return itemID;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
     public String getItemCode() {

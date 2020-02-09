@@ -50,7 +50,7 @@ public class RetrievalFragment extends Fragment {
             @Override
             public void onDataLoaded(Retrieval[] retrievals) {
                 // 1. Create adapter after response from server
-                RetrievalAdapter mAdapter = new RetrievalAdapter(getContext(), retrievals);
+                RetrievalAdapter mAdapter = new RetrievalAdapter(getContext(), retrievals, "3", token);
 
                 // 2. Set adapter
                 recyclerView.setAdapter(mAdapter);

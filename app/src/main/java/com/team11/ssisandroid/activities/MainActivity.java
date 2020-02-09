@@ -76,12 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(role.contains("StoreClerk")){
             navigationView.getMenu().findItem(R.id.nav_store_retrieval).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_store_collection).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_stock_adjustment).setVisible(true);
         }
 
-        else if (role.contains("StoreSupervisor") || role.contains("StoreManager")){
-            navigationView.getMenu().findItem(R.id.nav_stock_adjustment_approval).setVisible(true);
-        }
+//        else if (role.contains("StoreSupervisor") || role.contains("StoreManager")){
+//            navigationView.getMenu().findItem(R.id.nav_stock_adjustment_approval).setVisible(true);
+//        }
 
         else if(role.contains("DepartmentHead")){
             navigationView.getMenu().findItem(R.id.nav_requisition).setVisible(true);

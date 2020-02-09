@@ -53,6 +53,14 @@
             android:text="Confirm"
             android:layout_marginTop="30dp"/>
 
+        <Button
+            android:id="@+id/dialog_cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_light"
+            android:text="Cancel"
+            android:layout_marginTop="1dp"/>
+
     </LinearLayout>
 
 </RelativeLayout>
