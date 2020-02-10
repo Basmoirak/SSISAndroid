@@ -56,8 +56,8 @@ public class StoreCollectionAdapter extends RecyclerView.Adapter<StoreCollection
     @Override
     public void onBindViewHolder(@NonNull StoreCollectionViewHolder holder, int position) {
 
-        holder.mTextViewDepartmentName.setText("Department: " + mStoreCollection.getGroupedDepartmentCollections()[position].getDepartmentName());
-        holder.mTextViewCollectionPoint.setText("Department: " + mStoreCollection.getGroupedDepartmentCollections()[position].getCollectionPoint());
+        holder.mTextViewDepartmentName.setText(mStoreCollection.getGroupedDepartmentCollections()[position].getDepartmentName());
+        holder.mTextViewCollectionPoint.setText(mStoreCollection.getGroupedDepartmentCollections()[position].getCollectionPoint());
     }
 
     @Override

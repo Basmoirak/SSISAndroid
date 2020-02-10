@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.fragments.CollectionFragment;
+import com.team11.ssisandroid.fragments.DelegationFragment;
 import com.team11.ssisandroid.fragments.RequisitionFragment;
 import com.team11.ssisandroid.fragments.RetrievalFragment;
 import com.team11.ssisandroid.fragments.StoreCollectionFragment;
@@ -119,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new StoreCollectionFragment()).commit();
                 break;
+            case R.id.nav_department_delegation:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new DelegationFragment()).commit();
         }
 
         return true;
