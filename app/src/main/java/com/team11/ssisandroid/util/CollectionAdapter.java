@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team11.ssisandroid.R;
 import com.team11.ssisandroid.fragments.CollectionFragment;
+import com.team11.ssisandroid.fragments.StoreCollectionFragment;
 import com.team11.ssisandroid.interfaces.CollectionApi;
 import com.team11.ssisandroid.models.DepartmentCollection;
 import com.team11.ssisandroid.models.UserRole;
@@ -58,13 +59,10 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_header_fragment, parent, false);
             return new CollectionHeaderViewHolder(itemView);
         }
-
-        if(role.contains("Employee")){
-            if(viewType == TYPE_BUTTON){
-                //Here Inflating your button view
-                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_button_fragment, parent, false);
-                return new CollectionButtonViewHolder(itemView);
-            }
+        if(viewType == TYPE_BUTTON){
+            //Here Inflating your button view
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_collection_button_fragment, parent, false);
+            return new CollectionButtonViewHolder(itemView);
         }
 
         return null;
@@ -86,18 +84,10 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final CollectionViewHolder itemViewHolder = (CollectionViewHolder) holder;
 
             // You have to set your listview items values with the help of model class and you can modify as per your needs
-
-            if(role.contains("StoreClerk")){
+            if(position != departmentCollection.getItemDisbursements().length + 1){
                 itemViewHolder.mTextViewDescription.setText(departmentCollection.getItemDisbursements()[position - 1].getItemDescription());
                 itemViewHolder.mTextViewItemCode.setText(departmentCollection.getItemDisbursements()[position - 1].getItemCode());
                 itemViewHolder.mTextViewQuantity.setText("Quantity: " + departmentCollection.getItemDisbursements()[position - 1].getAvailableQuantity());
-            }
-            else if(role.contains("Employee")){
-                if(position != departmentCollection.getItemDisbursements().length + 1){
-                    itemViewHolder.mTextViewDescription.setText(departmentCollection.getItemDisbursements()[position - 1].getItemDescription());
-                    itemViewHolder.mTextViewItemCode.setText(departmentCollection.getItemDisbursements()[position - 1].getItemCode());
-                    itemViewHolder.mTextViewQuantity.setText("Quantity: " + departmentCollection.getItemDisbursements()[position - 1].getAvailableQuantity());
-                }
             }
         }
         else if (holder instanceof CollectionButtonViewHolder){
@@ -111,19 +101,35 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if(departmentCollection.getItemDisbursements().length < 1){
                         Toast.makeText(view.getContext(), "You have no collections to confirm", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Send api call to server to update database
-                        confirmCollection(new ConfirmCollectionListener() {
-                            @Override
-                            public void onResponse() {
-                                Toast.makeText(mContext, "Collections confirmed", Toast.LENGTH_SHORT).show();
-                                // Create fragment that you want to go to
-                                CollectionFragment collectionFragment = new CollectionFragment();
 
-                                // Go to new fragment on button click
-                                AppCompatActivity activity  =(AppCompatActivity) mContext;
-                                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, collectionFragment).addToBackStack(null).commit();
-                            }
-                        });
+                        if(role.contains("Employee")){
+                            // Send api call to server to update database
+                            confirmCollection(new ConfirmCollectionListener() {
+                                @Override
+                                public void onResponse() {
+                                    Toast.makeText(mContext, "Collections confirmed", Toast.LENGTH_SHORT).show();
+                                    // Create fragment that you want to go to
+                                    CollectionFragment collectionFragment = new CollectionFragment();
+
+                                    // Go to new fragment on button click
+                                    AppCompatActivity activity  =(AppCompatActivity) mContext;
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, collectionFragment).addToBackStack(null).commit();
+                                }
+                            });
+                        } else if(role.contains("StoreClerk")){
+                            confirmStoreCollection(new ConfirmCollectionListener() {
+                                @Override
+                                public void onResponse() {
+                                    Toast.makeText(mContext, "Collections confirmed", Toast.LENGTH_SHORT).show();
+                                    // Create fragment that you want to go to
+                                    StoreCollectionFragment storeCollectionFragment = new StoreCollectionFragment();
+
+                                    // Go to new fragment on button click
+                                    AppCompatActivity activity  =(AppCompatActivity) mContext;
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, storeCollectionFragment).addToBackStack(null).commit();
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -133,8 +139,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position){
 
-        //If role contains Employee, itemViewType can be header/item/confirmationButton
-        if(role.contains("Employee")){
+        //ItemViewType can be header/item/confirmationButton
             if(position == 0){
                 return TYPE_HEADER;
             } else if(position == departmentCollection.getItemDisbursements().length + 1){
@@ -142,40 +147,19 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 return TYPE_ITEM;
             }
-        }
-        //If role contains StoreClerk, should only have header and items
-        else if (role.contains("StoreClerk")){
-            if(position == 0){
-                return TYPE_HEADER;
-            } else {
-                return TYPE_ITEM;
-            }
-        } else {
-            return TYPE_ITEM;
-        }
     }
 
-    // getItemCount increase the position depending on role.
     @Override
     public int getItemCount() {
         if(departmentCollection.getItemDisbursements() != null){
-            // If role contains StoreClerk, should show Header + Items
-            if(role.contains("StoreClerk")){
-                if (departmentCollection.getItemDisbursements().length > 0)
-                    return departmentCollection.getItemDisbursements().length + 1;
-            }
-            // If role contains Employee, should show Header + Items + Approval button
-            else if(role.contains("Employee")){
-                if(departmentCollection.getItemDisbursements().length > 0)
-                    return departmentCollection.getItemDisbursements().length + 2;
-            } else {
-                return 0;
-            }
-        } else {
-            // Return Header
-            return 1;
-        }
 
+            if (departmentCollection.getItemDisbursements().length > 0) {
+                return departmentCollection.getItemDisbursements().length + 2;
+            } else {
+                // Return Header
+                return 1;
+            }
+        }
         return 0;
     }
 
@@ -230,6 +214,31 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // Set up UserRole
         UserRole userRole = new UserRole(null, null, departmentId);
         Call<ResponseBody> call = collectionApi.confirmDepartmentCollection(token, userRole);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    listener.onResponse();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void confirmStoreCollection(final ConfirmCollectionListener listener){
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+
+        // Set up UserRole
+        UserRole userRole = new UserRole(null, null, departmentId);
+        Call<ResponseBody> call = collectionApi.confirmStoreCollection(token, userRole);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

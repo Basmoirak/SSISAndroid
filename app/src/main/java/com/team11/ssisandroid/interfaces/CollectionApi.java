@@ -21,4 +21,9 @@ public interface CollectionApi {
     @POST("api/disbursement/collection")
     Call<StoreCollection> getStoreCollection(@Header("Authorization") String authToken);
 
+    @POST("api/disbursement/storecollection")
+    Call<DepartmentCollection> getDepartmentCollectionForStore(@Header("Authorization") String authToken, @Body UserRole user);
+
+    @POST("api/disbursement/confirmcollection")
+    Call<ResponseBody> confirmStoreCollection(@Header("Authorization") String authToken, @Body UserRole user);
 }

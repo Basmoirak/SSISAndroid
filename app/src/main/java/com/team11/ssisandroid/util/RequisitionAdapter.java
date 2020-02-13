@@ -58,8 +58,8 @@ public class RequisitionAdapter extends RecyclerView.Adapter<RequisitionAdapter.
     @Override
     public void onBindViewHolder(@NonNull RequisitionViewHolder holder, int position) {
 
-        holder.mTextViewRequisitionId.setText("ID: " + mRequisitionArr[position].getRequisitionId());
-        holder.mTextViewRemarks.setText("Remarks: " + mRequisitionArr[position].getRemarks());
+        holder.mTextViewRequisitionId.setText(mRequisitionArr[position].getRequisitionId());
+        holder.mTextViewRemarks.setText(mRequisitionArr[position].getRemarks());
     }
 
     // Return the size of your data (invoked by layout manager)

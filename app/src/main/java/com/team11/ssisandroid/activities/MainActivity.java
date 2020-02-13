@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.nav_department_collection).setVisible(true);
         }
 
+        else if(role.contains("Representative")){
+            navigationView.getMenu().findItem(R.id.nav_requisition).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_department_collection).setVisible(true);
+        }
+
         return true;
     }
 

@@ -50,16 +50,30 @@ public class CollectionFragment extends Fragment {
         email = userDetails.getString("email", null);
         role = userDetails.getString("role", null);
 
-        getCollection(new CollectionLoadedListener() {
-            @Override
-            public void onDataLoaded(DepartmentCollection departmentCollection) {
-                // 1. Create adapter after response from server
-                CollectionAdapter mAdapter = new CollectionAdapter(getContext(), departmentCollection, role, departmentId, token);
+        if(role.contains("Employee") || role.contains("Representative")){
+            getCollection(new CollectionLoadedListener() {
+                @Override
+                public void onDataLoaded(DepartmentCollection departmentCollection) {
+                    // 1. Create adapter after response from server
+                    CollectionAdapter mAdapter = new CollectionAdapter(getContext(), departmentCollection, role, departmentId, token);
 
-                // 2. Set adapter
-                recyclerView.setAdapter(mAdapter);
-            }
-        });
+                    // 2. Set adapter
+                    recyclerView.setAdapter(mAdapter);
+                }
+            });
+        }
+        else if(role.contains("StoreClerk")){
+            getStoreCollection(new CollectionLoadedListener() {
+                @Override
+                public void onDataLoaded(DepartmentCollection departmentCollection) {
+                    // 1. Create adapter after response from server
+                    CollectionAdapter mAdapter = new CollectionAdapter(getContext(), departmentCollection, role, departmentId, token);
+
+                    // 2. Set adapter
+                    recyclerView.setAdapter(mAdapter);
+                }
+            });
+        }
     }
 
     @Nullable
@@ -100,6 +114,47 @@ public class CollectionFragment extends Fragment {
         // Set up user role
         UserRole userRole = new UserRole(email, null, departmentId);
         Call<DepartmentCollection> call = collectionApi.getDepartmentCollection(token, userRole);
+
+        call.enqueue(new Callback<DepartmentCollection>() {
+            @Override
+            public void onResponse(Call<DepartmentCollection> call, Response<DepartmentCollection> response) {
+                if(response.isSuccessful()){
+                    DepartmentCollection mDepartmentCollection = response.body();
+                    listener.onDataLoaded(mDepartmentCollection);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DepartmentCollection> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getStoreCollection(final CollectionLoadedListener listener){
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("https://team11ssis.azurewebsites.net/").addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+
+        // Retrieve authentication token, email and departmentId from shared preferences
+        SharedPreferences userDetails = this.getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        departmentId = null;
+
+        //If is Employee, take the current User's departmentId
+        if(role.contains("Employee")){
+            departmentId = userDetails.getString("departmentId", null);
+
+            //If is Store Clerk, take the departmentId provided from StoreCollection fragment
+        } else if(role.contains("StoreClerk")) {
+            Bundle bundle = this.getArguments();
+            if(bundle != null){
+                departmentId = bundle.getString("departmentId");
+            }
+        }
+
+        // Set up user role
+        UserRole userRole = new UserRole(email, null, departmentId);
+        Call<DepartmentCollection> call = collectionApi.getDepartmentCollectionForStore(token, userRole);
 
         call.enqueue(new Callback<DepartmentCollection>() {
             @Override
